@@ -33,10 +33,11 @@ contract MinimalProxyFactoryTest is Test {
         address cloneAddress = factory.createClone(address(implementation));
         ERC20Token token = ERC20Token(cloneAddress);
 
-        token.initialize("Test Token", "TTK", 18, 1000 ether, attacker);
+        token.initialize("DanielToken", "DTK", 18, 1000 ether, attacker);
 
         token.transfer(attacker1, 1 ether);
 
         assertEq(token.balanceOf(attacker1), 1 ether);
+        assertEq(token.balanceOf(attacker), 999 ether);
     }
 }
