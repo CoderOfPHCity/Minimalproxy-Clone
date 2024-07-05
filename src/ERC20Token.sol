@@ -13,7 +13,13 @@ contract ERC20Token {
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
 
-    function initialize(string memory name_, string memory symbol_, uint8 decimals_, uint256 initialSupply_, address owner_) external {
+    function initialize(
+        string memory name_,
+        string memory symbol_,
+        uint8 decimals_,
+        uint256 initialSupply_,
+        address owner_
+    ) external {
         require(!_initialized, "Contract is already initialized");
         _initialized = true;
         _name = name_;
