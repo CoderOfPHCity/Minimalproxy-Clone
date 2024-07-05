@@ -14,10 +14,8 @@ contract MinimalProxyFactory {
     }
 
     function createClone() external returns (address) {
-        MinimalProxy clone = new MinimalProxy(masterContract);
-        clones.push(address(clone));
-        emit CloneCreated(address(clone));
-        return address(clone);
+        clones.push(address(masterContract));
+        return address(masterContract);
     }
 
     function getClones() external view returns (address[] memory) {

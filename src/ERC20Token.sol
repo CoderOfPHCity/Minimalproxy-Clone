@@ -20,8 +20,16 @@ contract ERC20Token {
         uint256 initialSupply_,
         address owner_
     ) external {
-        require(!_initialized, "Contract is already initialized");
-        _initialized = true;
+    
+        // if ( msg.sender == owner_) {
+        //     _initialized = true;
+        // }
+        // _initialized = false;
+
+        require(!_initialized, "Contract already initialized");
+        require(msg.sender == owner_, "Caller is not the owner");
+
+    _initialized = true;
         _name = name_;
         _symbol = symbol_;
         _decimals = decimals_;
