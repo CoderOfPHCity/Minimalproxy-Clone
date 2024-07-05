@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
@@ -10,19 +9,17 @@ contract MinimalProxyFactoryTest is Test {
     ERC20Token public implementation;
     MinimalProxyFactory public factory;
 
-    //  attacker = makeAddr("Attacker");
     address attacker = makeAddr("alice");
     address attacker1 = makeAddr("attacker");
 
     function setUp() public {
         implementation = new ERC20Token();
-        factory = new MinimalProxyFactory(address(implementation));
+        factory = new MinimalProxyFactory();
     }
 
     function testGetClones() public {
-        address cloneAddress1 = factory.createClone();
-        //vm.prank(attacker);
-        address cloneAddress2 = factory.createClone();
+        address cloneAddress1 = factory.createClone(address(implementation));
+        address cloneAddress2 = factory.createClone(address(implementation));
 
         address[] memory clones = factory.getClones();
 
@@ -33,7 +30,7 @@ contract MinimalProxyFactoryTest is Test {
 
     function testDeployClone() public {
         vm.startPrank(attacker);
-        address cloneAddress = factory.createClone();
+        address cloneAddress = factory.createClone(address(implementation));
         ERC20Token token = ERC20Token(cloneAddress);
 
         token.initialize("Test Token", "TTK", 18, 1000 ether, attacker);

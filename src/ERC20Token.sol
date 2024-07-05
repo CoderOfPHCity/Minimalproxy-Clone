@@ -20,7 +20,6 @@ contract ERC20Token {
         uint256 initialSupply_,
         address owner_
     ) external {
-
         require(!_initialized, "Contract already initialized");
         require(msg.sender == owner_, "Caller is not the owner");
 

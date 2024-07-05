@@ -1,4 +1,4 @@
-// // SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
 contract MinimalProxy {
@@ -8,7 +8,7 @@ contract MinimalProxy {
         masterContract = _masterContract;
     }
 
-    fallback() external {
+    fallback() external payable {
         address target = masterContract;
         assembly {
             calldatacopy(0, 0, calldatasize())
