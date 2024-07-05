@@ -4,7 +4,6 @@ pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 import "../src/ERC20Token.sol";
-import "../src/MinimalProxy.sol";
 import "../src/MinimalProxyFactory.sol";
 
 contract MinimalProxyFactoryTest is Test {
@@ -13,6 +12,7 @@ contract MinimalProxyFactoryTest is Test {
 
     //  attacker = makeAddr("Attacker");
     address attacker = makeAddr("alice");
+    address attacker1 = makeAddr("attacker");
 
     function setUp() public {
         implementation = new ERC20Token();
@@ -32,23 +32,14 @@ contract MinimalProxyFactoryTest is Test {
     }
 
     function testDeployClone() public {
+        vm.startPrank(attacker);
         address cloneAddress = factory.createClone();
         ERC20Token token = ERC20Token(cloneAddress);
 
-        token.initialize("Test Token", "TTK", 18, 1000 ether, address(this));
+        token.initialize("Test Token", "TTK", 18, 1000 ether, attacker);
 
-        // vm.pauseGasMetering();
-        vm.stopPrank();
-        vm.prank(attacker);
+        token.transfer(attacker1, 1 ether);
 
-        address cloneAddress2 = factory.createClone();
-        ERC20Token token2 = ERC20Token(cloneAddress2);
-
-        token2.initialize("Another Token", "ATK", 18, 2000 ether, address(attacker));
-
-        token2.transfer(cloneAddress2, 500 ether);
-
-        assertEq(token.balanceOf(address(this)), 500 ether);
-        assertEq(token.balanceOf(cloneAddress2), 500 ether);
+        assertEq(token.balanceOf(attacker1), 1 ether);
     }
 }
