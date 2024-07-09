@@ -11,17 +11,7 @@ Foundry consists of:
 
 ## Documentation
 
-https://book.getfoundry.sh/
 
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
 
 ```shell
 $ forge test
